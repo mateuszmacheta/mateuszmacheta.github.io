@@ -3,13 +3,18 @@ layout: page
 title: About
 permalink: /about/
 ---
+![about_me]({{site.baseurl}}/assets/img/about_me.png)
 
-Some information about you!
+Hey all!
+My name is Mateusz Macheta, I'm a Robotic Process Automation Developer from Poland.
 
-### More Information
+![beyond_rpa]({{site.baseurl}}/assets/img/beyond-rpa.png)
 
-A place to include any other types of information that you'd like to include about yourself.
+### About Beyond RPA
+
+This blog was created so I could store and easily access all useful information in regards to RPA. And also share it with you!
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+You can meet me at Discord, click link below to join I Love Automation server.
+[I Love Automation Discord](https://www.discord.gg/iloveautomation)
