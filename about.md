@@ -3,12 +3,12 @@ layout: page
 title: About
 permalink: /about/
 ---
-![about_me]({{site.baseurl}}/assets/img/about_me.png)
+![about_me]({{site.baseurl}}/assets/img/about-me.png)
 
 Hey all!
 My name is Mateusz Macheta, I'm a Robotic Process Automation Developer from Poland.
 
-![beyond_rpa]({{site.baseurl}}/assets/img/beyond-rpa.png)
+![beyond_rpa]({{site.baseurl}}/images/beyond-rpa.png)
 
 ### About Beyond RPA
 
