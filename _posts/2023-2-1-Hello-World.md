@@ -3,6 +3,8 @@ layout: post
 title: Converting json to DataTable in UiPath
 published: true
 ---
+![2023-02-01-Main.png]({{site.baseurl}}/assets/img/2023-02-01-Main.png)
+
 
 ## Introduction
 This post is a reponse to request from [I Love Automation](https://discord.gg/iloveautomation) server member **Noka**. He asked if it's possible to easily convert json to a DataTable in UiPath. **NeoNova** presented interesting method that will be shown in following article.
