@@ -86,37 +86,31 @@ We have our source code containing URLs of product pages (marked as 1. in our Hi
 <span class="image--media">
 ```
 
-We can notice that our product URL is a first child element of type `a` of `div` element that has class `product--info`. We can use following XPath to select all such elements: `//div[@class='product--info']/a[1]`. What's left is to convert received data from string format to something that we can use XPath on, in .Net, <abbr title="System.XML.Linq.XDOcument">XDocument</abbr> is such format. So let's add `Deserialize XML` as another activity: `responseContent` as XMLString property, then press CTRL + K in XMLDocument property to create new variable of name `responseXML`. Let's run our workflow to see if everything works. Ooops, we're getting error.
+We can notice that our product URL is a first child element of type `a` of `div` element that has class `product--info`. We can use following XPath to select all such elements: `//div[@class='product--info']/a[1]`. What's left is to convert received data from string format to something that we can use XPath on. In .Net, `HtmlAgility.HtmlDocument` is such format. We only need to browse packages and search for `HtmlAgilityPack` by `ZZZ Projects` and others. After that let's add following activites: `Invoke Method`, `Assign` and `For Each` loop. Create new variable named `responseHTML` of `HtmlDocument` type and set following expression as default value: `new HtmlDocument()`.
+
+Set these properties to `Invoke Method`:
+- TargetType: `(null)`
+- TargetObject: `responseHTML`
+- MethodName: `LoadHtml`
+And in Parameters please add one parameter of Direction `In`, Type `String` and Value `responseContent`. This activity will load string from our response and allow us to retrieve html nodes from deserialized string.
+
+For `Assign` activity please create new variable of type `Array of HtmlAgility.HtmlNode` called `hyperlinks`. Then assign following value to it: `responseHTML.DocumentNode.SelectNodes("//div[@class='product--info']/a[1]").ToArray()`. This will result in getting all hyperlink nodes, i.e. `a` elements.
+
+And let's put `hyperlinks` in `List of items` property of `For Each`, `Type Argument` should change to `HtmlAgilityPack.HtmlNode`. Now put `Write Line` inside and inside it put expression `link.Attributes("href").Value`. We can run our workflow to see if we're going to get 4 hyperlinks we expect.
+
+![2023-02-06-Agility-Pack-Activities]({{site.baseurl}}/assets/img/2023-02-06-Agility-Pack-Activities.png)
 
 ```
-Deserialize XML: '=' is an unexpected token. The expected token is ';'. Line 55, position 43.
+https://www.camping-kaufhaus.com/marken/dometic/488761/dometic-kuehlschraenke-gasregelventil-fuer-rm-22xx/41xx/42xx
+https://www.camping-kaufhaus.com/marken/dometic/488796/dometic-tuerverriegelung-kuehlschraenke-rm-42xx/43xx/44xx
+https://www.camping-kaufhaus.com/campingmoebel/campingstuehle/klappstuehle/492061/campingstuhl-be-smart-majestic
+https://www.camping-kaufhaus.com/marken/dometic/488649/dometic-kuehlschraenke-heizpatrone-gewinkelt-125-watt/235-volt
 ```
 
-This means that our XML has some erorrs that prevent UiPath from parsing it properly. This is one of downsides of API approach - we sometimes receive HTML source code that has errors and even though web browser usually is able to properly display webpage, conversion to XML object is not possible. What we can do is to try and fix those errors before another attempt at parsing. We got exact place in our document in error message, so let's see what happens there:
+These are exactly the links we got for our products.
 
-```javascript
-(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-NJ42RTQ');
-```
+## Summarry
+If you would like to continue implementing remaining steps then you can use the same approach as I've just presented. Inside `For each` loop we can make another `HTTP Request` which can be followed by the same sequence of activities that resulted in producing above four links. The only difference would be that we want now EAN number. Feel free to prepare XPath that will select proper node with EAN number and post it in the comments.
 
-It is actually a javascript code inside `script` element. Let's remove all those nasty `script` elements - we don't need them making our lifes harder 😅. So let's add `System.Text.RegularExpressions` to our Imports tab to use the power of Regex! Let's put `Assign` just after `HTTP Request` - assinging to `responseContent` following expression: `Regex.Replace(responseContent, "<script>.*?<\/script>.", "", RegexOptions.Singleline)`. Let's give it another go. Oops, another error:
-
-```
-Deserialize XML: The 'meta' start tag on line 38 position 2 does not match the end tag of 'head'. Line 43, position 3.
-```
-
-We actually don't need anything inside `head` tag, let's get rid of it too. Put another assign and fix that responseContent with another expression  `Regex.Replace(responseContent, "<head>.*?<\/head>.", "", RegexOptions.Singleline)` Let's run it again. Oh no, another error:
-
-```
-Deserialize XML: Reference to undeclared entity 'nbsp'. Line 13, position 151.
-```
-
-That's another problem, that HTML has these things called entities that XML not fully supports. We can get rid of those as well. They start with ampersand `&` and end with semicolon `;`. So one more assignment with following expression: `System.Net.WebUtility.HtmlDecode(responseContent)`.
-
-### Some minutes later... and many adjustments more
-
-To be continued...
+I hope that you could understand how powerful this technique is. I will follow this up with another article where I will present UI approach and later we will compare these two methods in terms of performance. I hope to see you soon!
 
