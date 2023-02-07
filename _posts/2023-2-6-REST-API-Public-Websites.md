@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Using REST API Calls on Public Websites
-published: false
+published: true
 ---
 
 ## Introduction
