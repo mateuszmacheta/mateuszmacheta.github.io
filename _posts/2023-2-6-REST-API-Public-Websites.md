@@ -7,14 +7,14 @@ published: false
 ## Introduction
 Using API calls on public websites is a great alternative to UI automation. It's a lot faster and more reliable. Though it is not always possible, so you won't be replacing all your UI interactions with API call from now on. I'm assuming here you are already familiar with concept of APIs and also are familiar with consuming data in XML/HTML format.
 
-This post is a reponse to a problem presented on [I Love Automation](https://discord.gg/iloveautomation) server by a member **Dion**. Though REST API approach is not the only way to implement this, I think we can use **Dion**'s case as a sort of playground for showing differences between UI approach and API approach.
+This post is a response to a problem presented on [I Love Automation](https://discord.gg/iloveautomation) server by a member **Dion**. Though REST API approach is not the only way to implement this, I think we can use **Dion**'s case as a sort of playground for showing differences between UI approach and API approach.
 
 ## The Problem
-When searching on [Camping-Kaufhaus.com](https://www.camping-kaufhaus.com) for a specific product with inique indentifier called ***EAN*** we are getting multiple results.
+When searching on [Camping-Kaufhaus.com](https://www.camping-kaufhaus.com) for a specific product with unique identifier  called *EAN* we are getting multiple results.
 
 ![Search Results]({{site.baseurl}}/assets/img/2023-02-06-search-results.png)
 
-The problem is: which one is the proper product which has EAN we are looking for? WHen clicking on link of each result we can examine EAN number on product page. So we can find out that our product is **the chair**.
+The problem is: which one is the proper product which has EAN we are looking for? When clicking on link of each result we can examine EAN number on product page. So we can find out that our product is **the chair**.
 
 ![Product Page]({{site.baseurl}}/assets/img/2023-02-06-product-page.png)
 
@@ -31,11 +31,11 @@ There is quite simple solution to it, but still I would like to write it down so
 Now let's see how we can implement this with each approach.
 
 ### Examining Source Code
-There is one potential blocker for API approach - if we don't find data we're looking for in source code then API approach is not possible. So let's see if it's not the case here. Let's first examine search results page found under URL `https://www.camping-kaufhaus.com/search?sSearch=4260182767924` (we're using EAN from original question - 4260182767924). Now we're gonna right click on one of link in results and slect `Inspect`.
+There is one potential blocker for API approach - if we don't find data we're looking for in source code then API approach is not possible. So let's see if it's not the case here. Let's first examine search results page found under URL `https://www.camping-kaufhaus.com/search?sSearch=4260182767924` (we're using EAN from original question - 4260182767924). Now we're gonna right click on one of link in results and select `Inspect`.
 
 ![Inspect]({{site.baseurl}}/assets/img/2023-02-06-Inspect.png)
 
-Now we shoud see Elements tab containing page source code, with one of `a` elements highlighted.
+Now we should see Elements tab containing page source code, with one of `a` elements highlighted.
 
 ![Inspect Results]({{site.baseurl}}/assets/img/2023-02-06-Inspect-Results.png)
 
@@ -67,7 +67,7 @@ Repeating this for remaining products shows that `span` element with the same cl
 
 
 ## UiPath Approach
-Now let's demontrate how to use API approach in UiPath. First we're going to create new blank process with VBNet as expression languate. We're gonna add new library by pressing Manage Packages or CTRL + P. Search for `UiPath.WebAPI.Activities`, press Install and Save. Then add `HTTP Request` as a first activity, `HTTP Request Wizard` window will open, close it by clicking OK for now. Before we fill in required properties let's add `in_EAN` as input argument for Main workflow and add `"4260182767924"` as default value. Let's add variale called `URL` and set default value to `https://www.camping-kaufhaus.com/search?sSearch=`. Now let's go back to our `HTTP Request` activity and set following properties in Properties tab:
+Now let's demonstrate how to use API approach in UiPath. First we're going to create new blank process with VBNet as expression language. We're gonna add new library by pressing Manage Packages or CTRL + P. Search for `UiPath.WebAPI.Activities`, press Install and Save. Then add `HTTP Request` as a first activity, `HTTP Request Wizard` window will open, close it by clicking OK for now. Before we fill in required properties let's add `in_EAN` as input argument for Main workflow and add `"4260182767924"` as default value. Let's add variable called `URL` and set default value to `https://www.camping-kaufhaus.com/search?sSearch=`. Now let's go back to our `HTTP Request` activity and set following properties in Properties tab:
 - `Request URL` as `URL + in_EAN`
 - `Response Content` - hit CTRL + K and type `responseContent` as new variable name
 - `Resopnse Status` - hit CTRL + K and type `responseStatus` as new variable name
@@ -77,7 +77,7 @@ Now let's demontrate how to use API approach in UiPath. First we're going to cre
 All right, now we can test our workflow, just add one more `Write Text File` activity in the end, set `responseContent` as Text property and `"response.txt"` as FileName. It contains nothing else that website's source code! We can find `product--info` class that we found in previous chapter, that contained information about search results along with their URLs. Now the next step for us is to extract all these URLs of products. How do we do that?
 
 ### Extracting URLs from Search Results
-We have our source code containing URLs of product pages (marked as 1. in our High Level Solution steps). Now we can contiue using at least two methods - string manipulation or parsing XML/XPath. Each of them has its pros and cons, only the latter is ***proper*** one. But, since we will extract data twice, I'll use that opportunity to show both methods. Let's go with parsing XML/XPath for now. Let's just look at extracted HTML code and focuse on part that will give us what we need:
+We have our source code containing URLs of product pages (marked as 1. in our High Level Solution steps). Now we can contiue using at least two methods - string manipulation or parsing HTML/XPath. Each of them has its pros and cons, only the latter is *proper* one. We will continue with parsing HTML/XPath for now. Let's just look at extracted HTML code and focus on part that will give us what we need:
 
 ```html
 <div class="product--info">
@@ -109,7 +109,7 @@ https://www.camping-kaufhaus.com/marken/dometic/488649/dometic-kuehlschraenke-he
 
 These are exactly the links we got for our products.
 
-## Summarry
+## Summary
 If you would like to continue implementing remaining steps then you can use the same approach as I've just presented. Inside `For each` loop we can make another `HTTP Request` which can be followed by the same sequence of activities that resulted in producing above four links. The only difference would be that we want now EAN number. Feel free to prepare XPath that will select proper node with EAN number and post it in the comments.
 
 I hope that you could understand how powerful this technique is. I will follow this up with another article where I will present UI approach and later we will compare these two methods in terms of performance. I hope to see you soon!
