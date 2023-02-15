@@ -4,6 +4,8 @@ title: Using REST API Calls on Public Websites
 published: true
 ---
 
+![2023-02-06-Main.png]({{site.baseurl}}/assets/img/2023-02-06-Main.png)
+
 ## Introduction
 Using API calls on public websites is a great alternative to UI automation. It's a lot faster and more reliable. Though it is not always possible, so you won't be replacing all your UI interactions with API call from now on. I'm assuming here you are already familiar with concept of APIs and also are familiar with consuming data in XML/HTML format.
 
@@ -110,7 +112,7 @@ https://www.camping-kaufhaus.com/marken/dometic/488649/dometic-kuehlschraenke-he
 These are exactly the links we got for our products.
 
 ## Summary
-If you would like to continue implementing remaining steps then you can use the same approach as I've just presented. Inside `For each` loop we can make another `HTTP Request` which can be followed by the same sequence of activities that resulted in producing above four links. The only difference would be that we want now EAN number. Feel free to prepare XPath that will select proper node with EAN number and post it in the comments.
-
+If you would like to continue implementing remaining steps then you can use the same approach as I've just presented. Inside `For each` loop we can make another `HTTP Request` which can be followed by the same sequence of activities that resulted in producing above four links. The only difference would be that we want now EAN number. Feel free to prepare XPath that will select proper node with EAN number and post it in the comments.  
+  
 I hope that you could understand how powerful this technique is. I will follow this up with another article where I will present UI approach and later we will compare these two methods in terms of performance. I hope to see you soon!
 

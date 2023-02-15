@@ -17,4 +17,6 @@ This blog was created so I could store and easily access all useful information 
 ### Contact me
 
 You can meet me at Discord, click link below to join I Love Automation server.
+  
+  
 [I Love Automation Discord](https://www.discord.gg/iloveautomation)
