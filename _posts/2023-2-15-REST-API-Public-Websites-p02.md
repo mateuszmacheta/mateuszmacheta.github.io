@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Using REST API Calls on Public Websites episode 2
+title: Using REST API Calls on Public Websites part 2
 published: true
 ---
 
@@ -83,10 +83,10 @@ Let's see the results of repeatedly running our both workflows - with API and UI
   
 ![Access Violation]({{site.baseurl}}/assets/img/2023-02-15-Access-Violation.png)
   
-So after completing both workflows for 50+ runs let's see how long on average each took to complete:
+After completing both workflows for 50+ runs UI approach took on average 11.9 seconds and API - 1.7 seconds on average each took to complete:
   
-![Access Violation]({{site.baseurl}}/assets/img/2023-02-15-Summary-Chart-Average-Time.png)
+![Summary Chart Average Time]({{site.baseurl}}/assets/img/2023-02-15-Summary-Chart-Average-Time.png)
 
-I think numbers speak for themselves - UI approach took on average 11.9 seconds and API - 1.7 seconds. That's 7 times the difference. I think speed is not the only factor you consider when building automations, and it's definitely not the topmost priority. Still, it's one that is easy to measure.
+I think numbers speak for themselves - that's 7 times the difference. I believe that speed is not the only factor you consider when building automations, and it's definitely not typically the topmost priority. Still, it's one that is easy to measure.
   
 I Hope you enjoyed this article. Here's project with [full UiPath solution for both approaches]({{site.baseurl}}/assets/code/REST-API-Public-Websites-e02-Comparison.zip). Go, be greate!
