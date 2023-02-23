@@ -83,7 +83,7 @@ Let's see the results of repeatedly running our both workflows - with API and UI
   
 ![Access Violation]({{site.baseurl}}/assets/img/2023-02-15-Access-Violation.png)
   
-After completing both workflows for 50+ runs UI approach took on average 11.9 seconds and API - 1.7 seconds on average each took to complete:
+After completing both workflows for 50+ runs UI approach took 11.9 seconds and API - 1.7 seconds on average:
   
 ![Summary Chart Average Time]({{site.baseurl}}/assets/img/2023-02-15-Summary-Chart-Average-Time.png)
 
