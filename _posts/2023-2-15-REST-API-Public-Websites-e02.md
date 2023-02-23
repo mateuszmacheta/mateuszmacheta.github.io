@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Using REST API Calls on Public Websites episode 2
-published: false
+published: true
 ---
 
 ![2023-02-06-Main.png]({{site.baseurl}}/assets/img/2023-02-06-Main.png)
@@ -40,7 +40,7 @@ We're going to open web browser and use Table Extraction on product hyperlinks:
   
 ![Products Extraction]({{site.baseurl}}/assets/img/2023-02-15-Product-Links-Table-Extraction.png)
   
-- Use Application/Browser, URL: "https://www.camping-kaufhaus.com/search?sSearch=" + in_EAN, Close: NAppCloseMode.Never, Open: NAppOpenMode.IfNotOpen
+- Use Application/Browser, URL: "https://www.camping-kaufhaus.com/search?sSearch=" + in_EAN, Close: NAppCloseMode, Open: NAppOpenMode.Always
 - Extract Table Data - just click on first hyperlink of products - it should already recognize them all. Rename column with URLs to `url` - that's the only one we need
   
 After that let's verify if we're getting proper URLs by putting empty Write Line just after Extract Table Data with breakpoint on it. Press F6 to debug workflow.
@@ -60,4 +60,35 @@ So we already have URLs of product pages. We could use them to find each hyperli
   
 We can remove Write Line, put Delay activity with duration 00:00:05 right after Go To URL in each loop to test our workflow. After pressing F6 we should see all four product pages cycle before bot finishes its run. Now let's implement ponint 2.2 but removing Delay and continuing with following activities:
   
-- 
+- variable productEAN, of String type, scope Body of For Each Row, default empty
+- Get Attribute, Strict Selector: `<webctrl class='ean--value' tag='SPAN' />`, Attribute: "text", Result: productEAN
+  
+![Product EAN]({{site.baseurl}}/assets/img/2023-02-15-Product-Page-EAN.png)
+
+- Write Line, Text: productEAN
+
+Let's check one last time before implementing point 2.3. Running workflow by pressing F6 should result in writing 4 EANs to console. If all run well we can just add last actvities that will write product URL if EAN matches the one given as input argument:
+  
+- If, Condition: productEAN = in_EAN
+- Then branch:
+ - Assign, To: out_ProductURL, Value: CurrentRow("url").ToString()
+ - Break
+  
+And the last Write Line in the main sequence:
+  
+- Write Line, Text: "Resulting product URL is: " + out_ProductURL
+
+## Comparison: API vs UI
+[full UiPath solution for both approaches]({{site.baseurl}}/assets/code/REST-API-Public-Websites-e02-Comparison.zip)
+  
+Let's see the results of repeatedly running our both workflows - with API and UI approach. I think I've run it a little bit too many times since I've managed to get following page shown 😅:
+  
+![Access Violation]({{site.baseurl}}/assets/img/2023-02-15-Access-Violation.png)
+  
+So after completing both workflows for 50+ runs let's see how long on average each took to complete:
+  
+![Access Violation]({{site.baseurl}}/assets/img/2023-02-15-Summary-Chart-Average-Time.png)
+
+I think numbers speak for themselves - UI approach took on average 11.9 seconds and API - 1.7 seconds. That's 7 times the difference. I think speed is not the only factor you consider when building automations, and it's definitely not the topmost priority. Still, it's one that is easy to measure.
+  
+I Hope you enjoyed this article. Go, be greate!
