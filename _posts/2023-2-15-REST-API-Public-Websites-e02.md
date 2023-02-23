@@ -4,7 +4,7 @@ title: Using REST API Calls on Public Websites episode 2
 published: true
 ---
 
-![2023-02-06-Main.png]({{site.baseurl}}/assets/img/2023-02-06-Main.png)
+![2023-02-15-Main.png]({{site.baseurl}}/assets/img/2023-02-15-Main.png)
 
 ## Introduction
 Using API calls on public websites is an alternative to UI interaction. On [previous episode]({{site.baseurl}/REST-API-Public-Websites) I've shown how to use this technique. Now I will show typical RPA way of doing the same. But before we continue you can download [full UiPath solution for API approach]({{site.baseurl}}/assets/code/REST-API-Public-Websites-e02.zip) described in the previous article.
