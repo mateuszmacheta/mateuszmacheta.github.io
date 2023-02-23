@@ -7,7 +7,7 @@ published: true
 ![2023-02-15-Main.png]({{site.baseurl}}/assets/img/2023-02-15-Main.png)
 
 ## Introduction
-Using API calls on public websites is an alternative to UI interaction. On [previous episode]({{site.baseurl}/REST-API-Public-Websites) I've shown how to use this technique. Now I will show typical RPA way of doing the same. But before we continue you can download [full UiPath solution for API approach]({{site.baseurl}}/assets/code/REST-API-Public-Websites-e02.zip) described in the previous article.
+Using API calls on public websites is an alternative to UI interaction. On [previous episode]({{site.baseurl}}/REST-API-Public-Websites) I've shown how to use this technique. Now I will show typical RPA way of doing the same. But before we continue you can download [full UiPath solution for API approach]({{site.baseurl}}/assets/code/REST-API-Public-Websites-e02.zip) described in the previous article.
 
 ## The Problem
 When searching on [Camping-Kaufhaus.com](https://www.camping-kaufhaus.com) for a specific product with unique identifier  called *EAN* we are getting multiple results.
@@ -79,8 +79,6 @@ And the last Write Line in the main sequence:
 - Write Line, Text: "Resulting product URL is: " + out_ProductURL
 
 ## Comparison: API vs UI
-[full UiPath solution for both approaches]({{site.baseurl}}/assets/code/REST-API-Public-Websites-e02-Comparison.zip)
-  
 Let's see the results of repeatedly running our both workflows - with API and UI approach. I think I've run it a little bit too many times since I've managed to get following page shown 😅:
   
 ![Access Violation]({{site.baseurl}}/assets/img/2023-02-15-Access-Violation.png)
@@ -91,4 +89,4 @@ So after completing both workflows for 50+ runs let's see how long on average ea
 
 I think numbers speak for themselves - UI approach took on average 11.9 seconds and API - 1.7 seconds. That's 7 times the difference. I think speed is not the only factor you consider when building automations, and it's definitely not the topmost priority. Still, it's one that is easy to measure.
   
-I Hope you enjoyed this article. Go, be greate!
+I Hope you enjoyed this article. Here's project with [full UiPath solution for both approaches]({{site.baseurl}}/assets/code/REST-API-Public-Websites-e02-Comparison.zip). Go, be greate!
